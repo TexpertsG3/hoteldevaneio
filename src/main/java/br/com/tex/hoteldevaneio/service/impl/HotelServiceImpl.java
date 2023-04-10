@@ -7,9 +7,6 @@ import br.com.tex.hoteldevaneio.model.Hotel;
 import br.com.tex.hoteldevaneio.model.dto.HotelInputDTO;
 import br.com.tex.hoteldevaneio.model.dto.HotelOutputDTO;
 import br.com.tex.hoteldevaneio.repository.HotelRepository;
-import br.com.tex.hoteldevaneio.service.ContatoService;
-import br.com.tex.hoteldevaneio.service.DadosHotelService;
-import br.com.tex.hoteldevaneio.service.EnderecoService;
 import br.com.tex.hoteldevaneio.service.HotelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,13 +22,13 @@ public class HotelServiceImpl implements HotelService {
     private HotelRepository hotelRepository;
 
     @Autowired
-    private ContatoService contatoService;
+    private ContatoServiceImpl contatoService;
 
     @Autowired
-    private EnderecoService enderecoService;
+    private EnderecoServiceImpl enderecoService;
 
     @Autowired
-    private DadosHotelService dadosHotelService;
+    private DadosHotelServiceImpl dadosHotelService;
 
     @Transactional
     public HotelOutputDTO cadastra(HotelInputDTO hotelInputDTO) {

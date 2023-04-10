@@ -24,4 +24,8 @@ public class Hotel {
         this.dadosHotelId = dadosHotel;
     }
 
+    public Hotel(Integer id) {
+        this.id = id;
+    }
+
 }

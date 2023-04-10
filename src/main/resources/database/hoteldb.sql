@@ -30,7 +30,7 @@ CREATE TABLE `admin` (
   `senha` varchar(100) NOT NULL,
   `contato_id` int NOT NULL,
   `endereco_id` int NOT NULL,
-  `hotel_id` int DEFAULT NULL,
+  `hotel_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_administrador_contato_idx` (`contato_id`),
   KEY `fk_administrador_endereco_idx` (`endereco_id`),
@@ -38,7 +38,7 @@ CREATE TABLE `admin` (
   CONSTRAINT `fk_administrador_contato` FOREIGN KEY (`contato_id`) REFERENCES `contato` (`id`),
   CONSTRAINT `fk_administrador_endereco` FOREIGN KEY (`endereco_id`) REFERENCES `endereco` (`id`),
   CONSTRAINT `fk_administrador_hotel` FOREIGN KEY (`hotel_id`) REFERENCES `hotel` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -53,7 +53,7 @@ CREATE TABLE `cargo` (
   `nome` varchar(100) NOT NULL,
   `descricao` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -69,7 +69,7 @@ CREATE TABLE `contato` (
   `telefone` varchar(45) NOT NULL,
   `celular` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -90,7 +90,7 @@ CREATE TABLE `dados_hotel` (
   KEY `fk_dados_hotel_endereco_idx` (`endereco_id`),
   CONSTRAINT `fk_dados_hotel_contato` FOREIGN KEY (`contato_id`) REFERENCES `contato` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_dados_hotel_endereco` FOREIGN KEY (`endereco_id`) REFERENCES `endereco` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -110,7 +110,7 @@ CREATE TABLE `endereco` (
   `uf` varchar(2) NOT NULL,
   `complemento` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -137,10 +137,10 @@ CREATE TABLE `funcionario` (
   KEY `fk_funcionario_endereco_idx` (`endereco_id`),
   KEY `fk_funcionario_id_hotel_idx` (`hotel_id`),
   CONSTRAINT `fk_funcionario_cargo` FOREIGN KEY (`cargo_id`) REFERENCES `cargo` (`id`),
-  CONSTRAINT `fk_funcionario_contato` FOREIGN KEY (`contato_id`) REFERENCES `contato` (`id`),
-  CONSTRAINT `fk_funcionario_endereco` FOREIGN KEY (`endereco_id`) REFERENCES `endereco` (`id`),
-  CONSTRAINT `fk_funcionario_hotel` FOREIGN KEY (`hotel_id`) REFERENCES `hotel` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `fk_funcionario_contato` FOREIGN KEY (`contato_id`) REFERENCES `contato` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_funcionario_endereco` FOREIGN KEY (`endereco_id`) REFERENCES `endereco` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_funcionario_hotel` FOREIGN KEY (`hotel_id`) REFERENCES `hotel` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -151,20 +151,20 @@ DROP TABLE IF EXISTS `hospede`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `hospede` (
-  `id` int NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
   `nome` varchar(100) NOT NULL,
   `sobrenome` varchar(100) NOT NULL,
   `cpf` varchar(11) NOT NULL,
   `senha` varchar(25) NOT NULL,
   `contato_id` int NOT NULL,
-  `hotel_id` int DEFAULT NULL,
+  `hotel_id` int NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `cpf_UNIQUE` (`cpf`),
-  KEY `fsdf_idx` (`hotel_id`),
-  KEY `fk_hospede_contato` (`contato_id`),
-  CONSTRAINT `fk_hospede_contato` FOREIGN KEY (`contato_id`) REFERENCES `contato` (`id`),
+  KEY `fk_hospede_hotel_idx` (`hotel_id`),
+  KEY `fk_hospede_contato_idx` (`contato_id`),
+  CONSTRAINT `fk_hospede_contato` FOREIGN KEY (`contato_id`) REFERENCES `contato` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_hospede_hotel` FOREIGN KEY (`hotel_id`) REFERENCES `hotel` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -181,7 +181,7 @@ CREATE TABLE `hotel` (
   UNIQUE KEY `id_dados_hotel_UNIQUE` (`dados_hotel_id`),
   KEY `fk_hotel_dadosHotel_idx` (`dados_hotel_id`),
   CONSTRAINT `fk_hotel_dadosHotel` FOREIGN KEY (`dados_hotel_id`) REFERENCES `dados_hotel` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -200,7 +200,7 @@ CREATE TABLE `quarto` (
   PRIMARY KEY (`id`),
   KEY `fk_quarto_hotel_idx` (`hotel_id`),
   CONSTRAINT `fk_quarto_hotel` FOREIGN KEY (`hotel_id`) REFERENCES `hotel` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -228,7 +228,7 @@ CREATE TABLE `reserva` (
   CONSTRAINT `fk_reserva_hospede` FOREIGN KEY (`hospede_id`) REFERENCES `hospede` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_reserva_hotel` FOREIGN KEY (`hotel_id`) REFERENCES `hotel` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_reserva_quarto` FOREIGN KEY (`quarto_id`) REFERENCES `quarto` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -247,7 +247,7 @@ CREATE TABLE `reserva_servico` (
   KEY `fk_reserva_servico_id_servico_adicional_idx` (`servico_adicional_id`),
   CONSTRAINT `fk_reserva_servico_reserva` FOREIGN KEY (`reserva_id`) REFERENCES `reserva` (`id`),
   CONSTRAINT `fk_reserva_servico_servico_adicional` FOREIGN KEY (`servico_adicional_id`) REFERENCES `servico_adicional` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -265,7 +265,7 @@ CREATE TABLE `servico_adicional` (
   PRIMARY KEY (`id`),
   KEY `fk_servico_adicional_id_hotel_idx` (`hotel_id`) /*!80000 INVISIBLE */,
   CONSTRAINT `fk_servico_adicional_hotel` FOREIGN KEY (`hotel_id`) REFERENCES `hotel` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -277,4 +277,4 @@ CREATE TABLE `servico_adicional` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-04-06 22:31:56
+-- Dump completed on 2023-04-09 20:56:34

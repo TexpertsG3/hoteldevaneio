@@ -3,7 +3,7 @@ package br.com.tex.hoteldevaneio.controller;
 import br.com.tex.hoteldevaneio.model.Hotel;
 import br.com.tex.hoteldevaneio.model.dto.HotelInputDTO;
 import br.com.tex.hoteldevaneio.model.dto.HotelOutputDTO;
-import br.com.tex.hoteldevaneio.service.HotelService;
+import br.com.tex.hoteldevaneio.service.impl.HotelServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ import java.util.Optional;
 public class HotelController {
 
     @Autowired
-    private HotelService hotelService;
+    private HotelServiceImpl hotelService;
 
     @PostMapping
     public ResponseEntity<HotelOutputDTO> cadastra(@RequestBody @Valid HotelInputDTO hotelInputDTO, UriComponentsBuilder uriBuilder) {
