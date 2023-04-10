@@ -29,14 +29,14 @@ public class HospedeServiceImpl implements HospedeService {
     @Override
     @Transactional
     public HospedeOutputDTO cadastra(HospedeInputDTO hospedeInputDTO) {
+        Hotel hotel = hotelService.buscarPor(hospedeInputDTO.getHotelId().getId()).get();
+
         Contato contato = Contato.cadastroContatoBuilder()
                 .email(hospedeInputDTO.getEmail())
                 .telefone(hospedeInputDTO.getTelefone())
                 .celular(hospedeInputDTO.getCelular())
                 .build();
         Contato contatoSalvo = contatoService.cadastra(contato);
-
-        Hotel hotel = hotelService.buscarPor(hospedeInputDTO.getHotelId().getId()).get();
 
         Hospede hospede = Hospede.cadastroHospedeBuilder()
                 .nome(hospedeInputDTO.getNome())

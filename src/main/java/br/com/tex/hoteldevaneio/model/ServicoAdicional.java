@@ -2,6 +2,7 @@ package br.com.tex.hoteldevaneio.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +11,7 @@ import java.math.BigDecimal;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder(builderMethodName = "cadastroServicoAdicionalBuilder")
 @Entity
 @Table(name = "servico_adicional")
 public class ServicoAdicional {
@@ -25,5 +27,13 @@ public class ServicoAdicional {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "hotel_id")
     private Hotel hotelId;
+
+    public ServicoAdicional.ServicoAdicionalBuilder builder(String nome, BigDecimal preco, Hotel hotelId) {
+
+        return cadastroServicoAdicionalBuilder()
+                .nome(nome)
+                .preco(preco)
+                .hotelId(hotelId);
+    }
 
 }
