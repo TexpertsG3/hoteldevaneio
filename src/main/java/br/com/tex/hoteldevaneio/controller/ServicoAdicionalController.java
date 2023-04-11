@@ -53,6 +53,7 @@ public class ServicoAdicionalController {
     @PutMapping("/{id}")
     public ResponseEntity<ServicoAdicionalOutputDTO> altera(@PathVariable Integer id, @RequestBody ServicoAdicionalInputDTO servicoAdicionalInputDTO) {
         ServicoAdicional servicoAdicionalBuscado = servicoAdicionalService.buscarReferenciaPor(id);
+        hotelService.buscarReferenciaPor(servicoAdicionalInputDTO.getHotelId().getId());
 
         ServicoAdicionalOutputDTO servicoAdicionalOutputDTO = servicoAdicionalService.altera(servicoAdicionalBuscado, servicoAdicionalInputDTO);
         return ResponseEntity

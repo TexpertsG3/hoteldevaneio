@@ -53,6 +53,7 @@ public class AdminController {
     @PutMapping("/{id}")
     public ResponseEntity<AdminOutputDTO> altera(@PathVariable Integer id, @RequestBody AdminInputDTO adminInputDTO) {
         Admin adminBuscado = adminService.buscarReferenciaPor(id);
+        hotelService.buscarReferenciaPor(adminInputDTO.getHotelId().getId());
 
         AdminOutputDTO adminOutputDTO = adminService.altera(adminBuscado, adminInputDTO);
         return ResponseEntity

@@ -85,6 +85,8 @@ public class AdminServiceImpl implements AdminService {
     @Override
     @Transactional
     public AdminOutputDTO altera(Admin admin, AdminInputDTO adminInputDTO) {
+        Hotel hotelBuscado = hotelService.buscarPor(adminInputDTO.getHotelId().getId()).get();
+
         admin.setNome(adminInputDTO.getNome());
         admin.setSenha(adminInputDTO.getSenha());
 
@@ -99,6 +101,7 @@ public class AdminServiceImpl implements AdminService {
         admin.getEnderecoId().setCidade(adminInputDTO.getCidade());
         admin.getEnderecoId().setUf(adminInputDTO.getUf());
         admin.getEnderecoId().setComplemento(adminInputDTO.getComplemento());
+        admin.setHotelId(hotelBuscado);
 
 
         Admin adminSalvo = adminRepository.save(admin);

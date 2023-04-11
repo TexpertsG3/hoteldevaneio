@@ -8,6 +8,7 @@ import br.com.tex.hoteldevaneio.repository.ServicoAdicionalRepository;
 import br.com.tex.hoteldevaneio.service.ServicoAdicionalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +23,7 @@ public class ServicoAdicionalServiceImpl implements ServicoAdicionalService {
     private HotelServiceImpl hotelService;
 
     @Override
+    @Transactional
     public ServicoAdicionalOutputDTO cadastra(ServicoAdicionalInputDTO servicoAdicionalInputDTO) {
         Hotel hotel = hotelService.buscarPor(servicoAdicionalInputDTO.getHotelId().getId()).get();
 
@@ -52,12 +54,22 @@ public class ServicoAdicionalServiceImpl implements ServicoAdicionalService {
     }
 
     @Override
+    @Transactional
     public ServicoAdicionalOutputDTO altera(ServicoAdicional servicoAdicional, ServicoAdicionalInputDTO servicoAdicionalInputDTO) {
-        return null;
+        Hotel hotelBuscado = hotelService.buscarPor(servicoAdicionalInputDTO.getHotelId().getId()).get();
+
+        servicoAdicional.setNome(servicoAdicionalInputDTO.getNome());
+        servicoAdicional.setPreco(servicoAdicionalInputDTO.getPreco());
+        servicoAdicional.setHotelId(hotelBuscado);
+
+        ServicoAdicional servicoAdicionalSalvo = servicoAdicionalRepository.save(servicoAdicional);
+
+        return new ServicoAdicionalOutputDTO(servicoAdicionalSalvo);
     }
 
     @Override
+    @Transactional
     public void deleta(ServicoAdicional servicoAdicional) {
-
+        servicoAdicionalRepository.deleteById(servicoAdicional.getId());
     }
 }
