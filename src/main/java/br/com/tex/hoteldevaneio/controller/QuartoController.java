@@ -30,7 +30,7 @@ public class QuartoController {
 
         QuartoOutputDTO servicoAdicionalOutputDTO = quartoService.cadastra(quartoInputDTO);
         return ResponseEntity
-                .created(uriBuilder.path("/servicoAdicional/{id}").buildAndExpand(servicoAdicionalOutputDTO.getId()).toUri())
+                .created(uriBuilder.path("/quarto/{id}").buildAndExpand(servicoAdicionalOutputDTO.getId()).toUri())
                 .body(servicoAdicionalOutputDTO);
     }
 
