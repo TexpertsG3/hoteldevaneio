@@ -1,13 +1,12 @@
 package br.com.tex.hoteldevaneio.model.dto;
 
-import br.com.tex.hoteldevaneio.model.Hospede;
-import br.com.tex.hoteldevaneio.model.Hotel;
-import br.com.tex.hoteldevaneio.model.Quarto;
-import br.com.tex.hoteldevaneio.model.Reserva;
+import br.com.tex.hoteldevaneio.model.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -19,11 +18,14 @@ public class ReservaOutputDTO {
     private Integer id;
     private Hotel hotelId;
     private Quarto quartoId;
+    @JsonFormat(pattern="dd/MM/yyyy")
     private LocalDate checkIn;
+    @JsonFormat(pattern="dd/MM/yyyy")
     private LocalDate checkOut;
     private Hospede hospedeId;
     private Integer quantidadeAdultos;
     private Integer quantidadeCriancas;
+    private Set<ServicoAdicional> servicos;
     private BigDecimal totalServicos;
     private BigDecimal totalReserva;
 

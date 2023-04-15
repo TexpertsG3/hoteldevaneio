@@ -10,8 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class ServicoAdicionalServiceImpl implements ServicoAdicionalService {
@@ -71,5 +74,24 @@ public class ServicoAdicionalServiceImpl implements ServicoAdicionalService {
     @Transactional
     public void deleta(ServicoAdicional servicoAdicional) {
         servicoAdicionalRepository.deleteById(servicoAdicional.getId());
+    }
+
+    public Set<ServicoAdicional> buscarServicosPorIds(Set<Integer> ids) {
+        Set<ServicoAdicional> servicos = new HashSet<>();
+        for (Integer id : ids) {
+            ServicoAdicional servico = servicoAdicionalRepository.findById(id).orElse(null);
+            if (servico != null) {
+                servicos.add(servico);
+            }
+        }
+        return servicos;
+    }
+
+    public BigDecimal somaServicos(Set<ServicoAdicional> servicos) {
+        BigDecimal resultado = BigDecimal.ZERO;
+        for (ServicoAdicional servico : servicos) {
+            resultado = resultado.add(servico.getPreco());
+        }
+        return resultado;
     }
 }
