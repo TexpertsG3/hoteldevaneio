@@ -7,6 +7,7 @@ import br.com.tex.hoteldevaneio.service.impl.HospedeServiceImpl;
 import br.com.tex.hoteldevaneio.service.impl.HotelServiceImpl;
 import br.com.tex.hoteldevaneio.service.impl.QuartoServiceImpl;
 import br.com.tex.hoteldevaneio.service.impl.ReservaServiceImpl;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,8 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/reserva")
+@RequestMapping(value = "/reserva", produces = {"application/json"})
+@Tag(name = "Reserva", description = "Endpoints relacionados a reserva.")
 public class ReservaController {
 
     @Autowired
@@ -34,9 +36,9 @@ public class ReservaController {
 
     @PostMapping
     public ResponseEntity<ReservaOutputDTO> cadastra(@RequestBody @Valid ReservaInputDTO reservaInputDTO, UriComponentsBuilder uriBuilder) {
-        hotelService.buscarReferenciaPor(reservaInputDTO.getHotelId().getId());
-        quartoService.buscarReferenciaPor(reservaInputDTO.getQuartoId().getId());
-        hospedeService.buscarReferenciaPor(reservaInputDTO.getHospedeId().getId());
+        hotelService.buscarReferenciaPor(reservaInputDTO.getHotelId());
+        quartoService.buscarReferenciaPor(reservaInputDTO.getQuartoId());
+        hospedeService.buscarReferenciaPor(reservaInputDTO.getHospedeId());
 
         ReservaOutputDTO reservaOutputDTO = reservaService.cadastra(reservaInputDTO);
         return ResponseEntity
@@ -63,7 +65,7 @@ public class ReservaController {
     @PutMapping("/{id}")
     public ResponseEntity<ReservaOutputDTO> altera(@PathVariable Integer id, @RequestBody ReservaInputDTO reservaInputDTO) {
         Reserva reservaBuscada = reservaService.buscarReferenciaPor(id);
-        hotelService.buscarReferenciaPor(reservaInputDTO.getHotelId().getId());
+        hotelService.buscarReferenciaPor(reservaInputDTO.getHotelId());
 
         ReservaOutputDTO reservaOutputDTO = reservaService.altera(reservaBuscada, reservaInputDTO);
         return ResponseEntity

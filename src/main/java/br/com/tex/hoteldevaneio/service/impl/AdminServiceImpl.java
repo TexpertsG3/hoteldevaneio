@@ -33,7 +33,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     @Transactional
     public AdminOutputDTO cadastra(AdminInputDTO adminInputDTO) {
-        Hotel hotel = hotelService.buscarPor(adminInputDTO.getHotelId().getId()).get();
+        Hotel hotel = hotelService.buscarPor(adminInputDTO.getHotelId()).get();
 
         Contato contato = Contato.cadastroContatoBuilder()
                 .email(adminInputDTO.getEmail())
@@ -85,7 +85,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     @Transactional
     public AdminOutputDTO altera(Admin admin, AdminInputDTO adminInputDTO) {
-        Hotel hotelBuscado = hotelService.buscarPor(adminInputDTO.getHotelId().getId()).get();
+        Hotel hotelBuscado = hotelService.buscarPor(adminInputDTO.getHotelId()).get();
 
         admin.setNome(adminInputDTO.getNome());
         admin.setSenha(adminInputDTO.getSenha());

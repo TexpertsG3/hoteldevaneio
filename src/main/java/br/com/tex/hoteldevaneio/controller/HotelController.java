@@ -6,6 +6,7 @@ import br.com.tex.hoteldevaneio.model.dto.HotelOutputDTO;
 import br.com.tex.hoteldevaneio.service.impl.HotelServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -29,7 +30,8 @@ public class HotelController {
 
     @Operation(summary = "Endpoint para o cadastro de um novo hotel.", method = "POST")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Criado com sucesso."),
+            @ApiResponse(responseCode = "201", description = "Criado com sucesso.",content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = HotelOutputDTO.class)) }),
             @ApiResponse(responseCode = "400", description = "Parâmetros inválidos.", content = @Content),
             @ApiResponse(responseCode = "500", description = "Erro interno de servidor.", content = @Content),
     })
@@ -43,7 +45,8 @@ public class HotelController {
 
     @Operation(summary = "Endpoint para listar todos os hotéis cadastrados.", method = "GET")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Ok."),
+            @ApiResponse(responseCode = "200", description = "Ok.",content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = HotelOutputDTO.class)) }),
             @ApiResponse(responseCode = "404", description = "Não encontrado.", content = @Content),
             @ApiResponse(responseCode = "500", description = "Erro interno de servidor.", content = @Content),
     })
@@ -58,7 +61,8 @@ public class HotelController {
 
     @Operation(summary = "Endpoint para buscar um hotel pelo ID.", method = "GET")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Ok."),
+            @ApiResponse(responseCode = "200", description = "Ok.",content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = HotelOutputDTO.class)) }),
             @ApiResponse(responseCode = "404", description = "Não encontrado.", content = @Content),
             @ApiResponse(responseCode = "500", description = "Erro interno de servidor.", content = @Content),
     })
@@ -71,7 +75,8 @@ public class HotelController {
 
     @Operation(summary = "Endpoint para alterar um hotel buscado pelo ID.", method = "PUT")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Ok."),
+            @ApiResponse(responseCode = "200", description = "Ok.",content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = HotelOutputDTO.class)) }),
             @ApiResponse(responseCode = "404", description = "Não encontrado.", content = @Content),
             @ApiResponse(responseCode = "500", description = "Erro interno de servidor.", content = @Content),
     })

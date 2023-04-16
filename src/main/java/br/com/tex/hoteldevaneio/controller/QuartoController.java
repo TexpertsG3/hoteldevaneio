@@ -5,6 +5,7 @@ import br.com.tex.hoteldevaneio.model.dto.QuartoInputDTO;
 import br.com.tex.hoteldevaneio.model.dto.QuartoOutputDTO;
 import br.com.tex.hoteldevaneio.service.impl.HotelServiceImpl;
 import br.com.tex.hoteldevaneio.service.impl.QuartoServiceImpl;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,8 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/quarto")
+@RequestMapping(value = "/quarto", produces = {"application/json"})
+@Tag(name = "Quarto", description = "Endpoints relacionados a quarto.")
 public class QuartoController {
 
     @Autowired
@@ -26,7 +28,7 @@ public class QuartoController {
 
     @PostMapping
     public ResponseEntity<QuartoOutputDTO> cadastra(@RequestBody @Valid QuartoInputDTO quartoInputDTO, UriComponentsBuilder uriBuilder) {
-        hotelService.buscarReferenciaPor(quartoInputDTO.getHotelId().getId());
+        hotelService.buscarReferenciaPor(quartoInputDTO.getHotelId());
 
         QuartoOutputDTO servicoAdicionalOutputDTO = quartoService.cadastra(quartoInputDTO);
         return ResponseEntity
@@ -53,7 +55,7 @@ public class QuartoController {
     @PutMapping("/{id}")
     public ResponseEntity<QuartoOutputDTO> altera(@PathVariable Integer id, @RequestBody QuartoInputDTO quartoInputDTO) {
         Quarto quartoBuscado = quartoService.buscarReferenciaPor(id);
-        hotelService.buscarReferenciaPor(quartoInputDTO.getHotelId().getId());
+        hotelService.buscarReferenciaPor(quartoInputDTO.getHotelId());
 
         QuartoOutputDTO quartoOutputDTO = quartoService.altera(quartoBuscado, quartoInputDTO);
         return ResponseEntity

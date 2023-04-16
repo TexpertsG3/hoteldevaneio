@@ -24,5 +24,5 @@ public class QuartoInputDTO {
     @DecimalMin(value = "50.0", message = "Preço mínimo de R$50.00")
     private BigDecimal preco;
     @NotNull(message = "O campo hotel deve ser preenchido. Não pode ser vazio ou nulo.")
-    private Hotel hotelId;
+    private Integer hotelId;
 }

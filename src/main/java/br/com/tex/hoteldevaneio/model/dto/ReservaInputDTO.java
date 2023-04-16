@@ -20,14 +20,14 @@ import java.util.Set;
 @CheckData
 public class ReservaInputDTO {
 
-    private Hotel hotelId;
-    private Quarto quartoId;
+    private Integer hotelId;
+    private Integer quartoId;
     @JsonFormat(pattern="dd/MM/yyyy")
     private LocalDate checkIn;
     @JsonFormat(pattern="dd/MM/yyyy")
     private LocalDate checkOut;
-    private Hospede hospedeId;
+    private Integer hospedeId;
     private Integer quantidadeAdultos;
     private Integer quantidadeCriancas;
-    private Set<Integer> servicos;
+    private Set<Integer> servicosIds;
 }

@@ -5,6 +5,7 @@ import br.com.tex.hoteldevaneio.model.dto.ServicoAdicionalInputDTO;
 import br.com.tex.hoteldevaneio.model.dto.ServicoAdicionalOutputDTO;
 import br.com.tex.hoteldevaneio.service.impl.HotelServiceImpl;
 import br.com.tex.hoteldevaneio.service.impl.ServicoAdicionalServiceImpl;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,8 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/servicoAdicional")
+@RequestMapping(value = "/servicoAdicional", produces = {"application/json"})
+@Tag(name = "Serviço Adicional", description = "Endpoints relacionados a serviço adicional.")
 public class ServicoAdicionalController {
 
     @Autowired
@@ -26,7 +28,7 @@ public class ServicoAdicionalController {
 
     @PostMapping
     public ResponseEntity<ServicoAdicionalOutputDTO> cadastra(@RequestBody @Valid ServicoAdicionalInputDTO servicoAdicionalInputDTO, UriComponentsBuilder uriBuilder) {
-        hotelService.buscarReferenciaPor(servicoAdicionalInputDTO.getHotelId().getId());
+        hotelService.buscarReferenciaPor(servicoAdicionalInputDTO.getHotelId());
 
         ServicoAdicionalOutputDTO servicoAdicionalOutputDTO = servicoAdicionalService.cadastra(servicoAdicionalInputDTO);
         return ResponseEntity
@@ -53,7 +55,7 @@ public class ServicoAdicionalController {
     @PutMapping("/{id}")
     public ResponseEntity<ServicoAdicionalOutputDTO> altera(@PathVariable Integer id, @RequestBody ServicoAdicionalInputDTO servicoAdicionalInputDTO) {
         ServicoAdicional servicoAdicionalBuscado = servicoAdicionalService.buscarReferenciaPor(id);
-        hotelService.buscarReferenciaPor(servicoAdicionalInputDTO.getHotelId().getId());
+        hotelService.buscarReferenciaPor(servicoAdicionalInputDTO.getHotelId());
 
         ServicoAdicionalOutputDTO servicoAdicionalOutputDTO = servicoAdicionalService.altera(servicoAdicionalBuscado, servicoAdicionalInputDTO);
         return ResponseEntity

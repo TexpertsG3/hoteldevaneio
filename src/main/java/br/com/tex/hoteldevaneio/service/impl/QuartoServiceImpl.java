@@ -25,7 +25,7 @@ public class QuartoServiceImpl implements QuartoService {
     @Override
     @Transactional
     public QuartoOutputDTO cadastra(QuartoInputDTO quartoInputDTO) {
-        Hotel hotel = hotelService.buscarPor(quartoInputDTO.getHotelId().getId()).get();
+        Hotel hotel = hotelService.buscarPor(quartoInputDTO.getHotelId()).get();
 
         Quarto quarto = Quarto.cadastroQuartoBuilder()
                 .nome(quartoInputDTO.getNome())
@@ -57,7 +57,7 @@ public class QuartoServiceImpl implements QuartoService {
     @Override
     @Transactional
     public QuartoOutputDTO altera(Quarto quarto, QuartoInputDTO quartoInputDTO) {
-        Hotel hotelBuscado = hotelService.buscarPor(quartoInputDTO.getHotelId().getId()).get();
+        Hotel hotelBuscado = hotelService.buscarPor(quartoInputDTO.getHotelId()).get();
 
         quarto.setNome(quartoInputDTO.getNome());
         quarto.setDescricao(quartoInputDTO.getDescricao());

@@ -31,5 +31,5 @@ public class HospedeInputDTO {
     @NotBlank(message = "O campo celular deve ser preenchido. Não pode ser vazio ou nulo.")
     private String celular;
     @NotNull(message = "O campo hotelId deve ser preenchido. Não pode ser vazio ou nulo.")
-    private Hotel hotelId;
+    private Integer hotelId;
 }

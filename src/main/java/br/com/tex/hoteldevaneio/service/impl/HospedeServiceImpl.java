@@ -29,7 +29,7 @@ public class HospedeServiceImpl implements HospedeService {
     @Override
     @Transactional
     public HospedeOutputDTO cadastra(HospedeInputDTO hospedeInputDTO) {
-        Hotel hotel = hotelService.buscarPor(hospedeInputDTO.getHotelId().getId()).get();
+        Hotel hotel = hotelService.buscarPor(hospedeInputDTO.getHotelId()).get();
 
         Contato contato = Contato.cadastroContatoBuilder()
                 .email(hospedeInputDTO.getEmail())

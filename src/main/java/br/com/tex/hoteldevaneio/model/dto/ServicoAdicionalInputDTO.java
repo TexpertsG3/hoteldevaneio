@@ -22,6 +22,6 @@ public class ServicoAdicionalInputDTO {
     @DecimalMin(value = "50.0", message = "Preço mínimo de R$50.00")
     private BigDecimal preco;
     @NotNull(message = "O hotel deve ser preenchido. Não pode ser nulo.")
-    private Hotel hotelId;
+    private Integer hotelId;
 
 }

@@ -28,7 +28,7 @@ public class ServicoAdicionalServiceImpl implements ServicoAdicionalService {
     @Override
     @Transactional
     public ServicoAdicionalOutputDTO cadastra(ServicoAdicionalInputDTO servicoAdicionalInputDTO) {
-        Hotel hotel = hotelService.buscarPor(servicoAdicionalInputDTO.getHotelId().getId()).get();
+        Hotel hotel = hotelService.buscarPor(servicoAdicionalInputDTO.getHotelId()).get();
 
         ServicoAdicional servicoAdicional = ServicoAdicional.cadastroServicoAdicionalBuilder()
                 .nome(servicoAdicionalInputDTO.getNome())
@@ -59,7 +59,7 @@ public class ServicoAdicionalServiceImpl implements ServicoAdicionalService {
     @Override
     @Transactional
     public ServicoAdicionalOutputDTO altera(ServicoAdicional servicoAdicional, ServicoAdicionalInputDTO servicoAdicionalInputDTO) {
-        Hotel hotelBuscado = hotelService.buscarPor(servicoAdicionalInputDTO.getHotelId().getId()).get();
+        Hotel hotelBuscado = hotelService.buscarPor(servicoAdicionalInputDTO.getHotelId()).get();
 
         servicoAdicional.setNome(servicoAdicionalInputDTO.getNome());
         servicoAdicional.setPreco(servicoAdicionalInputDTO.getPreco());

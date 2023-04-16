@@ -5,6 +5,7 @@ import br.com.tex.hoteldevaneio.model.dto.HospedeInputDTO;
 import br.com.tex.hoteldevaneio.model.dto.HospedeOutputDTO;
 import br.com.tex.hoteldevaneio.service.impl.HospedeServiceImpl;
 import br.com.tex.hoteldevaneio.service.impl.HotelServiceImpl;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,8 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/hospede")
+@RequestMapping(value = "/hospede", produces = {"application/json"})
+@Tag(name = "Hospede", description = "Endpoints relacionados a hospede.")
 public class HospedeController {
 
     @Autowired
@@ -26,7 +28,7 @@ public class HospedeController {
 
     @PostMapping
     public ResponseEntity<HospedeOutputDTO> cadastra(@RequestBody @Valid HospedeInputDTO hospedeInputDTO, UriComponentsBuilder uriBuilder) {
-        hotelService.buscarReferenciaPor(hospedeInputDTO.getHotelId().getId());
+        hotelService.buscarReferenciaPor(hospedeInputDTO.getHotelId());
 
         HospedeOutputDTO hospedeOutputDTO = hospedeService.cadastra(hospedeInputDTO);
         return ResponseEntity

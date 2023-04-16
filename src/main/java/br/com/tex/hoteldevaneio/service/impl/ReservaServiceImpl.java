@@ -1,12 +1,14 @@
 package br.com.tex.hoteldevaneio.service.impl;
 
 import br.com.tex.hoteldevaneio.model.*;
+import br.com.tex.hoteldevaneio.model.dto.HospedeOutputDTO;
 import br.com.tex.hoteldevaneio.model.dto.ReservaInputDTO;
 import br.com.tex.hoteldevaneio.model.dto.ReservaOutputDTO;
 import br.com.tex.hoteldevaneio.repository.ReservaRepository;
 import br.com.tex.hoteldevaneio.service.ReservaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -32,12 +34,13 @@ public class ReservaServiceImpl implements ReservaService {
     private ServicoAdicionalServiceImpl servicoAdicionalService;
 
     @Override
+    @Transactional
     public ReservaOutputDTO cadastra(ReservaInputDTO reservaInputDTO) {
-        Hotel hotel = hotelService.buscarPor(reservaInputDTO.getHotelId().getId()).get();
-        Quarto quarto = quartoService.buscarPor(reservaInputDTO.getQuartoId().getId()).get();
-        Hospede hospede = hospedeService.buscarPor(reservaInputDTO.getHospedeId().getId()).get();
+        Hotel hotel = hotelService.buscarPor(reservaInputDTO.getHotelId()).get();
+        Quarto quarto = quartoService.buscarPor(reservaInputDTO.getQuartoId()).get();
+        Hospede hospede = hospedeService.buscarPor(reservaInputDTO.getHospedeId()).get();
 
-        Set<ServicoAdicional> servicos = servicoAdicionalService.buscarServicosPorIds(reservaInputDTO.getServicos());
+        Set<ServicoAdicional> servicos = servicoAdicionalService.buscarServicosPorIds(reservaInputDTO.getServicosIds());
 
         BigDecimal valorTotalServicos = servicoAdicionalService.somaServicos(servicos);
 
@@ -65,17 +68,18 @@ public class ReservaServiceImpl implements ReservaService {
 
     @Override
     public Optional<Reserva> buscarPor(Integer id) {
-        return Optional.empty();
+        return reservaRepository.findById(id);
     }
 
     @Override
     public Reserva buscarReferenciaPor(Integer id) {
-        return null;
+        return reservaRepository.getReferenceById(id);
     }
 
     @Override
     public List<ReservaOutputDTO> lista() {
-        return null;
+        List<Reserva> listaReservas = reservaRepository.findAll();
+        return listaReservas.stream().map(ReservaOutputDTO::new).toList();
     }
 
     @Override
@@ -85,7 +89,7 @@ public class ReservaServiceImpl implements ReservaService {
 
     @Override
     public void deleta(Reserva reserva) {
-
+        reservaRepository.deleteById(reserva.getId());
     }
 
     public BigDecimal calculaValorDiaria(Reserva reserva) {
