@@ -24,7 +24,7 @@ public class AdminInputDTO {
     private String senha;
     @Schema(description = "E-mail do admin.", example = "admin@hotel.com")
     @NotBlank(message = "O campo email deve ser preenchido. Não pode ser vazio ou nulo.")
-    @Email(message = "Email inválido.")
+    @Email(message = "E-mail inválido.")
     private String email;
     @Schema(description = "Telefone do admin.", example = "(99) 9999-8888")
     @NotBlank(message = "O campo telefone deve ser preenchido. Não pode ser vazio ou nulo.")
