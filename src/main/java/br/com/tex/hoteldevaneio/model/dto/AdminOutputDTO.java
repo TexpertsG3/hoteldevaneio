@@ -1,12 +1,7 @@
 package br.com.tex.hoteldevaneio.model.dto;
 
 import br.com.tex.hoteldevaneio.model.Admin;
-import br.com.tex.hoteldevaneio.model.Hotel;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Getter
