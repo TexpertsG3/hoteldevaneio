@@ -3,7 +3,6 @@ package br.com.tex.hoteldevaneio.controller;
 import br.com.tex.hoteldevaneio.model.Admin;
 import br.com.tex.hoteldevaneio.model.dto.AdminInputDTO;
 import br.com.tex.hoteldevaneio.model.dto.AdminOutputDTO;
-import br.com.tex.hoteldevaneio.model.dto.HotelOutputDTO;
 import br.com.tex.hoteldevaneio.service.impl.AdminServiceImpl;
 import br.com.tex.hoteldevaneio.service.impl.HotelServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;

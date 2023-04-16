@@ -5,9 +5,15 @@ import br.com.tex.hoteldevaneio.model.dto.HospedeInputDTO;
 import br.com.tex.hoteldevaneio.model.dto.HospedeOutputDTO;
 import br.com.tex.hoteldevaneio.service.impl.HospedeServiceImpl;
 import br.com.tex.hoteldevaneio.service.impl.HotelServiceImpl;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -26,7 +32,14 @@ public class HospedeController {
     @Autowired
     private HotelServiceImpl hotelService;
 
-    @PostMapping
+    @Operation(summary = "Endpoint para o cadastro de um novo hospede.", method = "POST")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Criado com sucesso.",content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = HospedeOutputDTO.class)) }),
+            @ApiResponse(responseCode = "400", description = "Parâmetros inválidos.", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno de servidor.", content = @Content),
+    })
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<HospedeOutputDTO> cadastra(@RequestBody @Valid HospedeInputDTO hospedeInputDTO, UriComponentsBuilder uriBuilder) {
         hotelService.buscarReferenciaPor(hospedeInputDTO.getHotelId());
 
@@ -36,7 +49,14 @@ public class HospedeController {
                 .body(hospedeOutputDTO);
     }
 
-    @GetMapping
+    @Operation(summary = "Endpoint para listar todos os hospedes cadastrados.", method = "GET")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok.",content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = HospedeOutputDTO.class)) }),
+            @ApiResponse(responseCode = "404", description = "Não encontrado.", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno de servidor.", content = @Content),
+    })
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<HospedeOutputDTO>> listar() {
         List<HospedeOutputDTO> listaHospedes = hospedeService.lista();
         if (listaHospedes.isEmpty()) {
@@ -45,14 +65,28 @@ public class HospedeController {
         return ResponseEntity.ok(listaHospedes);
     }
 
-    @GetMapping("/{id}")
+    @Operation(summary = "Endpoint para buscar um hospede pelo ID.", method = "GET")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok.",content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = HospedeOutputDTO.class)) }),
+            @ApiResponse(responseCode = "404", description = "Não encontrado.", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno de servidor.", content = @Content),
+    })
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<HospedeOutputDTO> buscarReferenciaPor(@PathVariable Integer id) {
         Hospede hospedeBuscado = hospedeService.buscarReferenciaPor(id);
 
         return ResponseEntity.ok(new HospedeOutputDTO(hospedeBuscado));
     }
 
-    @PutMapping("/{id}")
+    @Operation(summary = "Endpoint para alterar um hospede buscado pelo ID.", method = "PUT")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok.",content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = HospedeOutputDTO.class)) }),
+            @ApiResponse(responseCode = "404", description = "Não encontrado.", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno de servidor.", content = @Content),
+    })
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<HospedeOutputDTO> altera(@PathVariable Integer id, @RequestBody HospedeInputDTO hospedeInputDTO) {
         Hospede hospedeBuscado = hospedeService.buscarReferenciaPor(id);
 
@@ -63,7 +97,13 @@ public class HospedeController {
 
     }
 
-    @DeleteMapping("/{id}")
+    @Operation(summary = "Endpoint para deletar um hospede buscado pelo ID.", method = "DELETE")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Sem conteúdo.", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Não encontrado.", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno de servidor.", content = @Content),
+    })
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity deleta(@PathVariable Integer id) {
         Optional<Hospede> hospedeBuscado = hospedeService.buscarPor(id);
         if (hospedeBuscado.isEmpty()) {
