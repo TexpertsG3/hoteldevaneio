@@ -1,7 +1,6 @@
 package br.com.tex.hoteldevaneio.service.impl;
 
 import br.com.tex.hoteldevaneio.model.*;
-import br.com.tex.hoteldevaneio.model.dto.HospedeOutputDTO;
 import br.com.tex.hoteldevaneio.model.dto.ReservaInputDTO;
 import br.com.tex.hoteldevaneio.model.dto.ReservaOutputDTO;
 import br.com.tex.hoteldevaneio.repository.ReservaRepository;
@@ -84,7 +83,28 @@ public class ReservaServiceImpl implements ReservaService {
 
     @Override
     public ReservaOutputDTO altera(Reserva reserva, ReservaInputDTO reservaInputDTO) {
-        return null;
+        Hotel hotelBuscado = hotelService.buscarPor(reservaInputDTO.getHotelId()).get();
+        Quarto quartoBuscado = quartoService.buscarPor(reservaInputDTO.getQuartoId()).get();
+        Hospede hospedeBuscado = hospedeService.buscarPor(reservaInputDTO.getHospedeId()).get();
+        Set<ServicoAdicional> servicosBuscados = servicoAdicionalService.buscarServicosPorIds(reservaInputDTO.getServicosIds());
+
+        reserva.setHotelId(hotelBuscado);
+        reserva.setQuartoId(quartoBuscado);
+        reserva.setCheckIn(reservaInputDTO.getCheckIn());
+        reserva.setCheckOut(reservaInputDTO.getCheckOut());
+        reserva.setHospedeId(hospedeBuscado);
+        reserva.setQuantidadeAdultos(reservaInputDTO.getQuantidadeAdultos());
+        reserva.setQuantidadeCriancas(reservaInputDTO.getQuantidadeCriancas());
+        reserva.setServicos(servicosBuscados);
+
+        BigDecimal valorTotalServicos = servicoAdicionalService.somaServicos(servicosBuscados);
+        reserva.setTotalServicos(valorTotalServicos);
+
+        BigDecimal valorTotalReserva = calculaTotalReserva(servicosBuscados, reserva);
+        reserva.setTotalReserva(valorTotalReserva);
+
+        Reserva reservaSalva = reservaRepository.save(reserva);
+        return new ReservaOutputDTO(reservaSalva);
     }
 
     @Override
@@ -92,6 +112,7 @@ public class ReservaServiceImpl implements ReservaService {
         reservaRepository.deleteById(reserva.getId());
     }
 
+    @Override
     public BigDecimal calculaValorDiaria(Reserva reserva) {
         BigDecimal totalDiaria = BigDecimal.ZERO;
         Integer totalAdultos = reserva.getQuantidadeAdultos();
@@ -108,6 +129,7 @@ public class ReservaServiceImpl implements ReservaService {
         return totalDiaria;
     }
 
+    @Override
     public BigDecimal calculaTotalReserva(Set<ServicoAdicional> servicoAdicional, Reserva reserva) {
         BigDecimal valorTotalDiaria = calculaValorDiaria(reserva);
         BigDecimal valorTotalServicos = servicoAdicionalService.somaServicos(servicoAdicional);

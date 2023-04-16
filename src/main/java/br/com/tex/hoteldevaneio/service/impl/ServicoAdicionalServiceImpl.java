@@ -76,6 +76,7 @@ public class ServicoAdicionalServiceImpl implements ServicoAdicionalService {
         servicoAdicionalRepository.deleteById(servicoAdicional.getId());
     }
 
+    @Override
     public Set<ServicoAdicional> buscarServicosPorIds(Set<Integer> ids) {
         Set<ServicoAdicional> servicos = new HashSet<>();
         for (Integer id : ids) {
@@ -87,6 +88,7 @@ public class ServicoAdicionalServiceImpl implements ServicoAdicionalService {
         return servicos;
     }
 
+    @Override
     public BigDecimal somaServicos(Set<ServicoAdicional> servicos) {
         BigDecimal resultado = BigDecimal.ZERO;
         for (ServicoAdicional servico : servicos) {
