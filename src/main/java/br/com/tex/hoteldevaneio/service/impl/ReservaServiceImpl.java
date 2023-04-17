@@ -10,12 +10,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 @Service
 public class ReservaServiceImpl implements ReservaService {
+
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     @Autowired
     private ReservaRepository reservaRepository;
@@ -43,7 +47,7 @@ public class ReservaServiceImpl implements ReservaService {
 
         BigDecimal valorTotalServicos = servicoAdicionalService.somaServicos(servicos);
 
-        Reserva reservaTemp = new Reserva(quarto, reservaInputDTO.getCheckIn(), reservaInputDTO.getCheckOut(),
+        Reserva reservaTemp = new Reserva(quarto, LocalDate.parse(reservaInputDTO.getCheckIn(), formatter), LocalDate.parse(reservaInputDTO.getCheckOut(), formatter),
                 reservaInputDTO.getQuantidadeAdultos(), reservaInputDTO.getQuantidadeCriancas());
 
         BigDecimal valorTotalReserva = calculaTotalReserva(servicos, reservaTemp);
@@ -51,8 +55,8 @@ public class ReservaServiceImpl implements ReservaService {
         Reserva reserva = Reserva.cadastroReservaBuilder()
                 .hotelId(hotel)
                 .quartoId(quarto)
-                .checkIn(reservaInputDTO.getCheckIn())
-                .checkOut(reservaInputDTO.getCheckOut())
+                .checkIn(LocalDate.parse(reservaInputDTO.getCheckIn(), formatter))
+                .checkOut(LocalDate.parse(reservaInputDTO.getCheckOut(), formatter))
                 .hospedeId(hospede)
                 .quantidadeAdultos(reservaInputDTO.getQuantidadeAdultos())
                 .quantidadeCriancas(reservaInputDTO.getQuantidadeCriancas())
@@ -82,6 +86,7 @@ public class ReservaServiceImpl implements ReservaService {
     }
 
     @Override
+    @Transactional
     public ReservaOutputDTO altera(Reserva reserva, ReservaInputDTO reservaInputDTO) {
         Hotel hotelBuscado = hotelService.buscarPor(reservaInputDTO.getHotelId()).get();
         Quarto quartoBuscado = quartoService.buscarPor(reservaInputDTO.getQuartoId()).get();
@@ -90,8 +95,8 @@ public class ReservaServiceImpl implements ReservaService {
 
         reserva.setHotelId(hotelBuscado);
         reserva.setQuartoId(quartoBuscado);
-        reserva.setCheckIn(reservaInputDTO.getCheckIn());
-        reserva.setCheckOut(reservaInputDTO.getCheckOut());
+        reserva.setCheckIn(LocalDate.parse(reservaInputDTO.getCheckIn(), formatter));
+        reserva.setCheckOut(LocalDate.parse(reservaInputDTO.getCheckOut(), formatter));
         reserva.setHospedeId(hospedeBuscado);
         reserva.setQuantidadeAdultos(reservaInputDTO.getQuantidadeAdultos());
         reserva.setQuantidadeCriancas(reservaInputDTO.getQuantidadeCriancas());
@@ -108,6 +113,7 @@ public class ReservaServiceImpl implements ReservaService {
     }
 
     @Override
+    @Transactional
     public void deleta(Reserva reserva) {
         reservaRepository.deleteById(reserva.getId());
     }
