@@ -63,6 +63,7 @@ public class ReservaController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok.",content = {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = ReservaOutputDTO.class)) }),
+            @ApiResponse(responseCode = "204", description = "Sem conteúdo.", content = @Content),
             @ApiResponse(responseCode = "404", description = "Não encontrado.", content = @Content),
             @ApiResponse(responseCode = "500", description = "Erro interno de servidor.", content = @Content),
     })
