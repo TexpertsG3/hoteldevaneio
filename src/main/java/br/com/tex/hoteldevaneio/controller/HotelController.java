@@ -2,6 +2,7 @@ package br.com.tex.hoteldevaneio.controller;
 
 import br.com.tex.hoteldevaneio.model.Hotel;
 import br.com.tex.hoteldevaneio.model.dto.HotelInputDTO;
+import br.com.tex.hoteldevaneio.model.dto.HotelListaAdminsOutputDTO;
 import br.com.tex.hoteldevaneio.model.dto.HotelOutputDTO;
 import br.com.tex.hoteldevaneio.service.impl.HotelServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
@@ -72,6 +73,21 @@ public class HotelController {
         Hotel hotelBuscado = hotelService.buscarReferenciaPor(id);
 
         return ResponseEntity.ok(new HotelOutputDTO(hotelBuscado));
+    }
+
+    @Operation(summary = "Endpoint para listar todos os admins cadastrados em um hotel específico.", method = "GET")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok.",content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = HotelListaAdminsOutputDTO.class)) }),
+            @ApiResponse(responseCode = "204", description = "Sem conteúdo.", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Não encontrado.", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno de servidor.", content = @Content),
+    })
+    @GetMapping(value = "/{id}/admins", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<HotelListaAdminsOutputDTO> buscaAdminPorHotel(@PathVariable Integer id) {
+        Hotel hotelBuscado = hotelService.buscarReferenciaPor(id);
+
+        return ResponseEntity.ok(new HotelListaAdminsOutputDTO(hotelBuscado));
     }
 
     @Operation(summary = "Endpoint para alterar um hotel buscado pelo ID.", method = "PUT")
