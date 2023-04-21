@@ -9,18 +9,18 @@ import java.util.List;
 
 @Getter
 @Setter
-public class HotelListaAdminsOutputDTO {
+public class HotelListaQuartosOutputDTO {
 
     @Schema(description = "ID do hotel.", example = "1")
     private Integer id;
     @Schema(description = "Nome do hotel.", example = "Devaneio")
     private String nome;
-    @Schema(description = "Lista de admins do hotel.")
-    private List<AdminOutputDTO> admins;
+    @Schema(description = "Lista de quartos do hotel.")
+    private List<QuartoOutputDTO> quartos;
 
-    public HotelListaAdminsOutputDTO(Hotel hotel) {
+    public HotelListaQuartosOutputDTO(Hotel hotel) {
         this.id = hotel.getId();
         this.nome = hotel.getDadosHotelId().getNome();
-        this.admins = hotel.getAdmins().stream().map(admin -> new AdminOutputDTO(admin)).toList();
+        this.quartos = hotel.getQuartos().stream().map(quarto -> new QuartoOutputDTO(quarto)).toList();
     }
 }
